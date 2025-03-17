@@ -21,7 +21,7 @@ const Index = () => {
       
       <main className="flex-grow pt-20">
         {/* Featured Post Section */}
-        <section className="my-8 px-4 max-w-7xl mx-auto animate-fade-in">
+        <section className="my-8 px-4 max-w-7xl mx-auto">
           <div className="mb-4">
             <h1 className="text-3xl font-bold text-gray-900">
               Welcome to <span className="text-city-navy">Not</span> <span className="text-city-sky">Really</span> <span className="text-city-navy">Here</span>
@@ -45,7 +45,7 @@ const Index = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {recentPosts.map((post, index) => (
-              <div key={post.id} className={`animate-fade-up animate-delay-${index * 100}`}>
+              <div key={post.id} className="opacity-100" style={{ animationDelay: `${index * 100}ms` }}>
                 <BlogCard post={post} />
               </div>
             ))}
@@ -61,8 +61,9 @@ const Index = () => {
               {['Latest News', 'Match Reports', 'Match Previews', 'Transfer News', 'Features'].map((category, index) => (
                 <Link
                   key={category}
-                  to={`/category/${category.toLowerCase().replace(' ', '-')}`}
-                  className={`glass-panel p-6 rounded-lg text-center hover:shadow-xl transition-all duration-300 animate-fade-up animate-delay-${index * 100}`}
+                  to={`/category/${category.toLowerCase().replace(/ /g, '-')}`}
+                  className="glass-panel p-6 rounded-lg text-center hover:shadow-xl transition-all duration-300"
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <h3 className="font-bold text-lg mb-2">{category}</h3>
                   <p className="text-sm text-gray-600">

@@ -119,13 +119,11 @@
   .animate-fade-in {
     opacity: 0;
     animation: fade-in 0.5s ease-out forwards;
-    animation-fill-mode: forwards;
   }
   
   .animate-fade-up {
     opacity: 0;
     animation: fade-up 0.5s ease-out forwards;
-    animation-fill-mode: forwards;
   }
   
   .animate-delay-100 {
@@ -146,5 +144,38 @@
   
   .animate-delay-500 {
     animation-delay: 500ms;
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-pulse-soft {
+    animation: pulse-soft 2s infinite;
+  }
+  
+  @keyframes pulse-soft {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
   }
 }
