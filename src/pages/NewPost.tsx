@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Button } from '../components/ui/button';
 import { ArrowLeft, Save } from 'lucide-react';
+import { blogPosts } from '../lib/blogData';
 
 const NewPost = () => {
   const navigate = useNavigate();
@@ -28,6 +29,29 @@ const NewPost = () => {
     }
     
     setIsSaving(true);
+    
+    // Create a new post object
+    const newPost = {
+      id: (blogPosts.length + 1).toString(),
+      title,
+      slug: title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-'),
+      excerpt: content.substring(0, 120) + "...",
+      content,
+      category: category as any,
+      tags: [],
+      featuredImage: `https://placehold.co/600x400/6CADDF/1C2C5B?text=${encodeURIComponent(title)}`,
+      author: {
+        id: "1",
+        name: "Admin User",
+        avatar: "/avatar-1.jpg"
+      },
+      publishedDate: new Date().toISOString(),
+      status: 'published' as const,
+      isFeatured: false
+    };
+    
+    // Add the new post to the blogPosts array
+    blogPosts.unshift(newPost);
     
     // Simulate API save delay
     await new Promise(resolve => setTimeout(resolve, 1000));
