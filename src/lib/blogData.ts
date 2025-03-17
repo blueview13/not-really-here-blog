@@ -106,7 +106,7 @@ export const blogPosts: BlogPost[] = [
     id: '4',
     title: 'Tactical Analysis: How City Dominated the Madrid Midfield',
     slug: 'tactical-analysis-city-madrid-midfield',
-    excerpt: 'A deep dive into how Manchester City's midfield masterclass was key to their victory over Real Madrid in the Champions League.',
+    excerpt: "A deep dive into how Manchester City's midfield masterclass was key to their victory over Real Madrid in the Champions League.",
     content: `
       <p>Manchester City's emphatic victory over Real Madrid in the Champions League semi-final showcased Pep Guardiola's tactical genius and the team's ability to execute his vision to perfection.</p>
       
@@ -136,7 +136,7 @@ export const blogPosts: BlogPost[] = [
     id: '5',
     title: 'Match Preview: Manchester City vs Liverpool',
     slug: 'match-preview-manchester-city-liverpool',
-    excerpt: 'Everything you need to know ahead of Sunday's crucial Premier League clash between Manchester City and Liverpool at the Etihad Stadium.',
+    excerpt: "Everything you need to know ahead of Sunday's crucial Premier League clash between Manchester City and Liverpool at the Etihad Stadium.",
     content: `
       <p>Manchester City host Liverpool this Sunday in what could be a pivotal match in the Premier League title race. With just one point separating the two sides at the top of the table, the outcome could have significant implications for the destination of the trophy.</p>
       
