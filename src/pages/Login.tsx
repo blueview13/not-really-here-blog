@@ -42,7 +42,7 @@ const Login = () => {
       <Navbar />
       
       <main className="flex-grow flex items-center justify-center py-20 px-4">
-        <div className="w-full max-w-md glass-panel rounded-lg p-8 animate-fade-in">
+        <div className="w-full max-w-md glass-panel rounded-lg p-8">
           <h1 className="text-2xl font-bold text-center mb-6">Admin Login</h1>
           
           <form onSubmit={handleSubmit} className="space-y-6">
