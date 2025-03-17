@@ -115,13 +115,16 @@
     @apply rounded-lg overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300;
   }
   
+  /* Fix for circular dependency - removed the self-referencing @apply */
   .animate-fade-in {
-    @apply opacity-0 animate-fade-in;
+    opacity: 0;
+    animation: fade-in 0.5s ease-out forwards;
     animation-fill-mode: forwards;
   }
   
   .animate-fade-up {
-    @apply opacity-0 animate-fade-up;
+    opacity: 0;
+    animation: fade-up 0.5s ease-out forwards;
     animation-fill-mode: forwards;
   }
   

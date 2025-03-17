@@ -1,238 +1,242 @@
 
-import { BlogPost, Author } from './types';
+import { BlogPost, Category, Author } from './types';
 
-export const authors: Author[] = [
+// Mock authors data
+const authors: Author[] = [
   {
     id: '1',
-    name: 'James Ducker',
-    avatar: 'https://i.pravatar.cc/150?img=11'
+    name: 'James Wilson',
+    avatar: '/avatar-1.jpg'
   },
   {
     id: '2',
-    name: 'Sam Lee',
-    avatar: 'https://i.pravatar.cc/150?img=12'
+    name: 'Sarah Parker',
+    avatar: '/avatar-2.jpg'
   },
   {
     id: '3',
-    name: 'Jonathan Smith',
-    avatar: 'https://i.pravatar.cc/150?img=13'
+    name: 'Michael Thompson',
+    avatar: '/avatar-3.jpg'
   }
 ];
 
+// Mock blog data
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
-    title: 'Guardiola Extends Contract: "The Best is Yet to Come"',
-    slug: 'guardiola-extends-contract',
-    excerpt: 'Manchester City manager Pep Guardiola has signed a two-year extension to his contract, keeping him at the club until 2025.',
+    title: 'Pep Guardiola Extends Contract Until 2025',
+    slug: 'pep-guardiola-extends-contract',
+    excerpt: 'Manchester City manager Pep Guardiola has signed a two-year contract extension that will keep him at the club until 2025.',
     content: `
-      <p>Manchester City manager Pep Guardiola has signed a two-year extension to his contract, keeping him at the club until 2025.</p>
+      <p>Manchester City is delighted to announce that Pep Guardiola has signed a new two-year contract.</p>
       
-      <p>The Spaniard, who has won four Premier League titles, one FA Cup and four League Cups at City, will now oversee a decade at the club.</p>
+      <p>The contract, which now runs until the summer of 2025, marks the continuation of a partnership that has delivered four Premier League titles, one FA Cup, four Carabao Cups, two Community Shields, and the Club's first Champions League trophy.</p>
       
-      <p>"I am so pleased to be staying at Manchester City for another two years," said Guardiola in a statement.</p>
+      <p>Guardiola joined City in 2016 and has overseen the most successful period in the club's history, winning 11 major trophies during his six years in Manchester.</p>
       
-      <p>"I can't say thank you enough to everyone at the club for trusting me. I am happy and comfortable, and I have everything I need to do my job as best as possible."</p>
+      <p>The 51-year-old has taken charge of 374 games at the Club, winning 271 of them and scoring 921 goals - all three stats being the highest of any Premier League manager during their time with City.</p>
       
-      <p>Guardiola added: "I know the next chapter of this club will be amazing for the next decade. It happened over the last ten years, and it will happen in the next ten years because this club is so stable."</p>
+      <p>Across all competitions, he has a stunning win percentage of 72.4%.</p>
       
-      <p>City chairman Khaldoon Al Mubarak said: "I am delighted that Pep's journey with Manchester City will continue."</p>
+      <p>His 181 Premier League wins over the past six seasons is 14 more than any other manager during that same period.</p>
       
-      <p>"He has already contributed so much to the success and fabric of this organization, and it's exciting to think what might be possible given the energy, hunger and ambition that he clearly still has."</p>
+      <p>Everyone at Manchester City is delighted that Pep's journey with the Club will continue and we look forward to what can be achieved together.</p>
     `,
     category: 'Latest News',
-    tags: ['Guardiola', 'Contract', 'Manager'],
-    featuredImage: 'https://images.unsplash.com/photo-1624280157150-4d1ed8632989?q=80&w=1000',
+    tags: ['pep guardiola', 'contract', 'manager'],
+    featuredImage: 'https://placehold.co/600x400/6CADDF/1C2C5B?text=Pep+Guardiola+Contract',
     author: authors[0],
-    publishedDate: '2023-11-23T12:00:00Z',
+    publishedDate: '2022-11-23T09:00:00.000Z',
     status: 'published',
     isFeatured: true
   },
   {
     id: '2',
-    title: 'De Bruyne Returns to Training Following Lengthy Injury',
-    slug: 'de-bruyne-returns-to-training',
-    excerpt: 'Manchester City's star midfielder Kevin De Bruyne has returned to first-team training after a three-month layoff due to a hamstring injury.',
+    title: 'Manchester City 4-1 Arsenal: Champions Showcase Title Credentials',
+    slug: 'manchester-city-4-1-arsenal',
+    excerpt: 'Manchester City produced a dominant display to defeat title rivals Arsenal 4-1 at the Etihad Stadium.',
     content: `
-      <p>Manchester City's star midfielder Kevin De Bruyne has returned to first-team training after a three-month layoff due to a hamstring injury.</p>
+      <p>Manchester City laid down a marker in the Premier League title race with a commanding 4-1 victory over Arsenal at the Etihad Stadium.</p>
       
-      <p>The Belgian international was injured during City's opening Premier League fixture against Burnley in August and has been sidelined ever since.</p>
+      <p>Kevin De Bruyne opened the scoring after just 5 minutes, finishing clinically after a sublime through ball from Erling Haaland.</p>
       
-      <p>De Bruyne was spotted participating in a light training session with the rest of the squad on Thursday morning, raising hopes of a potential return to action before the busy festive period.</p>
+      <p>John Stones doubled City's advantage on the stroke of half-time, heading home from a Riyad Mahrez corner.</p>
       
-      <p>City manager Pep Guardiola urged caution regarding the midfielder's return: "Kevin has just started training with us. It's good news, but we need to be patient. We won't rush him back."</p>
+      <p>Arsenal pulled one back through Rob Holding, but City's dominance continued as Haaland added a third with a powerful strike from the edge of the box.</p>
       
-      <p>"When you have been out for three months with a hamstring problem, you need to take things step by step. But we are all delighted to see him back on the grass," added Guardiola.</p>
+      <p>Phil Foden completed the scoring with a spectacular long-range effort that left Aaron Ramsdale with no chance.</p>
       
-      <p>The 32-year-old playmaker's return will be a significant boost for City, who have missed his creative influence in midfield during his absence.</p>
-      
-      <p>City faces a congested fixture schedule in December, and De Bruyne's return could prove crucial as they compete across multiple competitions.</p>
+      <p>The result moves City just two points behind Arsenal with a game in hand, putting Pep Guardiola's side in prime position to retain their Premier League crown.</p>
     `,
-    category: 'Latest News',
-    tags: ['De Bruyne', 'Injury', 'Return'],
-    featuredImage: 'https://images.unsplash.com/photo-1624280157150-4d1ed8632989?q=80&w=1000',
+    category: 'Match Reports',
+    tags: ['arsenal', 'premier league', 'match report'],
+    featuredImage: 'https://placehold.co/600x400/6CADDF/1C2C5B?text=City+4-1+Arsenal',
     author: authors[1],
-    publishedDate: '2023-11-21T15:30:00Z',
+    publishedDate: '2023-04-26T21:45:00.000Z',
     status: 'published',
     isFeatured: false
   },
   {
     id: '3',
-    title: 'City Triumph in Manchester Derby with Haaland Hat-trick',
-    slug: 'city-triumph-manchester-derby-haaland-hat-trick',
-    excerpt: 'Erling Haaland scored a stunning hat-trick as Manchester City secured a convincing 4-1 victory over Manchester United at the Etihad Stadium.',
+    title: 'Transfer Rumor: City Target Bundesliga Midfielder',
+    slug: 'city-target-bundesliga-midfielder',
+    excerpt: 'Manchester City are reportedly monitoring the situation of a highly-rated Bundesliga midfielder ahead of a potential summer move.',
     content: `
-      <p>Erling Haaland scored a stunning hat-trick as Manchester City secured a convincing 4-1 victory over Manchester United at the Etihad Stadium.</p>
+      <p>Manchester City are keeping close tabs on a rising Bundesliga star as Pep Guardiola looks to strengthen his midfield options this summer.</p>
       
-      <p>The Norwegian striker continued his remarkable goalscoring form with three well-taken goals, while Phil Foden added another as City dominated their local rivals from start to finish.</p>
+      <p>According to reports in Germany, City scouts have been regular attendees at matches featuring the 23-year-old, who has been impressing with his performances in the German top flight.</p>
       
-      <p>Haaland opened the scoring in the 10th minute, heading home from a Kevin De Bruyne corner. He doubled City's lead in the 37th minute with a powerful strike from just inside the box after being set up by Bernardo Silva.</p>
+      <p>The midfielder, known for his exceptional passing range and ability to control the tempo of games, is seen as a potential long-term successor to Rodri in City's engine room.</p>
       
-      <p>The 23-year-old completed his hat-trick early in the second half, converting from the penalty spot after Foden was brought down by Lisandro Martinez.</p>
+      <p>With two years remaining on his current contract, his club may consider offers in the region of £45 million for their prized asset.</p>
       
-      <p>Foden added a fourth for City in the 70th minute with a sublime finish from a tight angle, before Marcus Rashford scored a late consolation for United.</p>
+      <p>City face competition from several European giants, with Real Madrid and Bayern Munich also monitoring the situation.</p>
       
-      <p>City manager Pep Guardiola was full of praise for Haaland's performance: "Erling was exceptional today. His movement, his finishing, his work rate - everything was perfect. He is a special talent."</p>
-      
-      <p>The victory sees City maintain their position at the top of the Premier League table, three points ahead of second-placed Arsenal.</p>
+      <p>The player himself is believed to favor a move to the Premier League, giving City an advantage in negotiations.</p>
     `,
-    category: 'Match Reports',
-    tags: ['Haaland', 'Manchester Derby', 'Match Report'],
-    featuredImage: 'https://images.unsplash.com/photo-1624280157150-4d1ed8632989?q=80&w=1000',
+    category: 'Transfer News',
+    tags: ['transfers', 'rumor', 'bundesliga'],
+    featuredImage: 'https://placehold.co/600x400/6CADDF/1C2C5B?text=Transfer+Rumor',
     author: authors[2],
-    publishedDate: '2023-11-18T19:45:00Z',
+    publishedDate: '2023-05-15T14:30:00.000Z',
     status: 'published',
     isFeatured: false
   },
   {
     id: '4',
-    title: 'Preview: City Face Tough Champions League Test Against Bayern Munich',
-    slug: 'preview-city-face-bayern-munich-champions-league',
-    excerpt: 'Manchester City prepare for a challenging Champions League quarter-final first leg against Bayern Munich at the Etihad Stadium.',
+    title: 'Tactical Analysis: How City Dominated the Madrid Midfield',
+    slug: 'tactical-analysis-city-madrid-midfield',
+    excerpt: 'A deep dive into how Manchester City's midfield masterclass was key to their victory over Real Madrid in the Champions League.',
     content: `
-      <p>Manchester City prepare for a challenging Champions League quarter-final first leg against Bayern Munich at the Etihad Stadium.</p>
+      <p>Manchester City's emphatic victory over Real Madrid in the Champions League semi-final showcased Pep Guardiola's tactical genius and the team's ability to execute his vision to perfection.</p>
       
-      <p>The highly anticipated clash sees Pep Guardiola face his former club in what promises to be an enthralling tactical battle between two of Europe's elite teams.</p>
+      <p>Central to City's dominance was their control of the midfield battle. Rodri, operating as the deepest of City's midfielders, was instrumental in dictating the tempo of the game. The Spanish international completed an impressive 94% of his passes and made 7 ball recoveries.</p>
       
-      <p>City enter the match in excellent form, having won their last eight games in all competitions. However, they face a Bayern side that has been equally impressive under Thomas Tuchel's management.</p>
+      <p>Alongside him, Kevin De Bruyne and Bernardo Silva formed a fluid midfield trio that consistently bypassed Madrid's press. De Bruyne's positioning was particularly noteworthy, as he frequently dropped deep to create overloads before making late runs into attacking areas.</p>
       
-      <p>Guardiola has a fully fit squad to choose from, with Kevin De Bruyne and Erling Haaland both expected to start. The only selection dilemma appears to be whether to opt for Kyle Walker or Rico Lewis at right-back.</p>
+      <p>City's approach to pressing was equally impressive. Rather than pressing aggressively from the front, they adopted a more patient approach, cutting off passing lanes and forcing Madrid into uncomfortable areas. This strategy effectively nullified the threat of Luka Modric and Toni Kroos, who struggled to find their rhythm.</p>
       
-      <p>Bayern, meanwhile, will be without the injured Lucas Hernandez, but can call upon the likes of Harry Kane, Jamal Musiala, and Leroy Sané in attack.</p>
+      <p>The heat map below illustrates City's territorial dominance, with significant concentration in the middle third of the pitch.</p>
       
-      <p>Speaking ahead of the game, Guardiola emphasized the importance of staying focused: "We need to be at our absolute best for the full 90 minutes. Bayern have incredible quality all over the pitch and can punish any mistakes."</p>
+      <p>Another key aspect was the positioning of City's full-backs. When in possession, they would often invert into midfield positions, creating numerical superiority and providing additional passing options. This tactical wrinkle confused Madrid's defensive structure and created space for City's wingers to exploit in one-on-one situations.</p>
       
-      <p>The return leg will be played at the Allianz Arena next week, with the winners facing either Real Madrid or Liverpool in the semi-finals.</p>
+      <p>Guardiola's constant tweaking of his system throughout the match also prevented Madrid from adapting, with subtle changes in pressing triggers and build-up patterns keeping the opposition guessing.</p>
+      
+      <p>This masterclass in midfield control serves as a blueprint for how City might approach future encounters against Europe's elite teams, and highlights why they remain favorites to lift the Champions League trophy.</p>
     `,
-    category: 'Match Previews',
-    tags: ['Champions League', 'Bayern Munich', 'Preview'],
-    featuredImage: 'https://images.unsplash.com/photo-1624280157150-4d1ed8632989?q=80&w=1000',
+    category: 'Features',
+    tags: ['tactical analysis', 'real madrid', 'champions league'],
+    featuredImage: 'https://placehold.co/600x400/6CADDF/1C2C5B?text=Tactical+Analysis',
     author: authors[0],
-    publishedDate: '2023-11-14T09:15:00Z',
+    publishedDate: '2023-05-17T12:00:00.000Z',
     status: 'published',
     isFeatured: false
   },
   {
     id: '5',
-    title: 'City Set to Target Premier League Striker in January Transfer Window',
-    slug: 'city-target-premier-league-striker-january-transfer',
-    excerpt: 'Manchester City are reportedly preparing a January bid for one of the Premier League's most prolific strikers to provide competition for Erling Haaland.',
+    title: 'Match Preview: Manchester City vs Liverpool',
+    slug: 'match-preview-manchester-city-liverpool',
+    excerpt: 'Everything you need to know ahead of Sunday's crucial Premier League clash between Manchester City and Liverpool at the Etihad Stadium.',
     content: `
-      <p>Manchester City are reportedly preparing a January bid for one of the Premier League's most prolific strikers to provide competition for Erling Haaland.</p>
+      <p>Manchester City host Liverpool this Sunday in what could be a pivotal match in the Premier League title race. With just one point separating the two sides at the top of the table, the outcome could have significant implications for the destination of the trophy.</p>
       
-      <p>According to sources close to the club, City's recruitment team has identified several potential targets, with Brentford's Ivan Toney believed to be at the top of their shortlist.</p>
+      <p><strong>Team News</strong></p>
       
-      <p>Toney, who recently returned to action following a suspension, has been in impressive form for the Bees and is seen as an ideal alternative to Haaland, offering a different profile in attack.</p>
+      <p>City will be boosted by the return of Kevin De Bruyne, who has recovered from the minor hamstring issue that kept him out of Belgium's recent World Cup qualifiers. However, John Stones remains doubtful after picking up a knock on international duty.</p>
       
-      <p>City's interest comes amid concerns about their squad depth in the striker position, with Julián Álvarez often deployed in a more withdrawn role by Pep Guardiola.</p>
+      <p>For Liverpool, Alisson Becker and Fabinho are expected to start despite their late return from Brazil, while Diogo Jota faces a late fitness test.</p>
       
-      <p>The Premier League champions are expected to face competition from Arsenal and Chelsea for Toney's signature, with Brentford likely to demand in excess of £50 million for their star forward.</p>
+      <p><strong>Tactical Preview</strong></p>
       
-      <p>When questioned about potential January transfers, Guardiola remained tight-lipped: "My focus is only on the players we have right now. The club will always look at possibilities to improve the squad, but I am very happy with what we have."</p>
+      <p>The tactical battle between Pep Guardiola and Jürgen Klopp has become one of the most fascinating in modern football. City will likely look to dominate possession and break down Liverpool's high press, while the visitors will aim to exploit transition moments with their rapid front three.</p>
       
-      <p>Any move for a new striker would likely signal a change in formation or approach from Guardiola, who has predominantly used a system built around a single central forward this season.</p>
+      <p>A key battleground will be the wide areas, where City's full-backs will need to balance their attacking instincts with defensive responsibilities against Mohamed Salah and Sadio Mané.</p>
+      
+      <p><strong>Key Stats</strong></p>
+      
+      <p>City have won their last 10 Premier League matches at the Etihad, scoring 33 goals and conceding just 4.</p>
+      
+      <p>Liverpool are unbeaten in their last 20 league games, their longest such run under Klopp.</p>
+      
+      <p>The last five Premier League meetings between these sides have produced 18 goals.</p>
+      
+      <p><strong>Predicted Line-ups</strong></p>
+      
+      <p>City (4-3-3): Ederson; Walker, Dias, Laporte, Cancelo; Rodri, De Bruyne, Bernardo; Mahrez, Sterling, Grealish.</p>
+      
+      <p>Liverpool (4-3-3): Alisson; Alexander-Arnold, Matip, Van Dijk, Robertson; Henderson, Fabinho, Thiago; Salah, Jota, Mané.</p>
+      
+      <p>This promises to be another classic encounter between two sides who have defined English football in recent years. Kick-off is at 16:30 BST, with live coverage on Sky Sports Main Event.</p>
     `,
-    category: 'Transfer News',
-    tags: ['Transfers', 'January Window', 'Striker'],
-    featuredImage: 'https://images.unsplash.com/photo-1624280157150-4d1ed8632989?q=80&w=1000',
+    category: 'Match Previews',
+    tags: ['liverpool', 'premier league', 'match preview'],
+    featuredImage: 'https://placehold.co/600x400/6CADDF/1C2C5B?text=City+vs+Liverpool',
     author: authors[1],
-    publishedDate: '2023-11-12T11:20:00Z',
+    publishedDate: '2023-05-20T09:15:00.000Z',
     status: 'published',
     isFeatured: false
   },
   {
     id: '6',
-    title: 'The Evolution of Rodri: How City's Midfield Maestro Became World-Class',
-    slug: 'evolution-rodri-city-midfield-maestro',
-    excerpt: 'An in-depth analysis of Rodri's development at Manchester City and how he has established himself as one of the world's premier defensive midfielders.',
+    title: 'Fan Favorite Announces Retirement from Football',
+    slug: 'fan-favorite-announces-retirement',
+    excerpt: 'Former Manchester City midfielder and fan favorite has announced his retirement from professional football at the age of 36.',
     content: `
-      <p>When Rodri arrived at Manchester City in the summer of 2019 as the club's record signing at the time, he was viewed as the long-term successor to Fernandinho. Four years later, the Spanish international has not only filled those sizeable boots but arguably surpassed his predecessor's impact.</p>
+      <p>A former Manchester City midfielder, widely regarded as one of the club's most popular players during the early years of the Sheikh Mansour era, has announced his retirement from professional football.</p>
       
-      <p>Rodri's evolution under Pep Guardiola's guidance has been remarkable. Initially struggling with the pace and physicality of the Premier League, he has transformed into the metronome of City's midfield, dictating play with his exceptional passing range and tactical intelligence.</p>
+      <p>The 36-year-old, who made 260 appearances for City between 2009 and 2017, confirmed his decision in an emotional social media post this morning.</p>
       
-      <p>The 27-year-old's improvement in defensive positioning has been particularly noteworthy. In his first season, Rodri would often find himself caught out of position during opposition counter-attacks. Now, his anticipation and reading of the game have developed to such an extent that he regularly snuffs out dangerous situations before they materialize.</p>
+      <p>"After 18 wonderful years as a professional footballer, I have decided to hang up my boots," he wrote. "I have been fortunate to play for some incredible clubs, but my time at Manchester City will always hold a special place in my heart."</p>
       
-      <p>Statistically, Rodri's influence is evident. Last season, he completed more passes than any other Premier League player, maintained a pass completion rate of over 90%, and significantly increased his goal contribution, including several crucial strikes.</p>
+      <p>During his time at the Etihad, he won two Premier League titles, an FA Cup, two League Cups, and a Community Shield, establishing himself as a key figure in the club's transformation into a footballing powerhouse.</p>
       
-      <p>His crowning moment came in the Champions League final against Inter Milan, where his second-half goal secured City's historic treble. That strike epitomized Rodri's development – arriving at the perfect moment to finish with the composure of a seasoned striker.</p>
+      <p>Known for his technical ability, vision, and spectacular goals, he became a favorite among the City faithful, who affectionately nicknamed him based on his ball-playing abilities.</p>
       
-      <p>Former City midfielder Yaya Touré recently described Rodri as "the complete modern midfielder" and suggested he deserves serious consideration for the Ballon d'Or. High praise indeed, but few would argue against Rodri's credentials as one of the world's elite midfielders.</p>
+      <p>After leaving City in 2017, he had spells in Spain and Italy before finishing his career in MLS with a two-year stint at an Eastern Conference club.</p>
       
-      <p>As City continue their pursuit of domestic and European honors this season, Rodri's importance cannot be overstated. In a team full of stars, he has become the irreplaceable foundation upon which Guardiola's tactical masterplan is built.</p>
-    `,
-    category: 'Features',
-    tags: ['Rodri', 'Analysis', 'Midfield'],
-    featuredImage: 'https://images.unsplash.com/photo-1624280157150-4d1ed8632989?q=80&w=1000',
-    author: authors[2],
-    publishedDate: '2023-11-10T14:00:00Z',
-    status: 'published',
-    isFeatured: false
-  },
-  {
-    id: '7',
-    title: 'City Unveil Plans for Etihad Stadium Expansion',
-    slug: 'city-unveil-plans-etihad-stadium-expansion',
-    excerpt: 'Manchester City have revealed ambitious plans to increase the capacity of the Etihad Stadium to 60,000 seats and enhance fan amenities.',
-    content: `
-      <p>Manchester City have revealed ambitious plans to increase the capacity of the Etihad Stadium to 60,000 seats and enhance fan amenities.</p>
+      <p>City chairman Khaldoon Al Mubarak was among the first to pay tribute: "Everyone at Manchester City would like to congratulate him on an outstanding career and thank him for his contribution to our club. He will always be welcome at the Etihad Stadium, and we look forward to seeing him again soon."</p>
       
-      <p>The proposed expansion, which is subject to planning permission, would primarily focus on the North Stand, adding approximately 7,000 new seats to the stadium's current capacity.</p>
+      <p>Former teammates and fans have flooded social media with messages of support and appreciation, reflecting the high esteem in which he is held by the City community.</p>
       
-      <p>In addition to the increased seating, the development plans include a new club museum, an enhanced fan zone, and improved hospitality facilities.</p>
-      
-      <p>City's Chief Operating Officer, Omar Berrada, outlined the club's vision: "The Etihad Stadium has been our home for 20 years, and this development will ensure it remains a world-class venue for decades to come."</p>
-      
-      <p>"We've carefully considered feedback from supporters and local residents to create plans that will benefit everyone. This isn't just about adding more seats; it's about creating a better matchday experience for all fans and further integrating the stadium into the local community," Berrada added.</p>
-      
-      <p>The expansion project is expected to take approximately two years to complete, with construction likely to begin at the end of the current season if planning approval is granted.</p>
-      
-      <p>City have confirmed that the work will be phased to minimize disruption to matches, with most of the construction taking place during off-season periods.</p>
+      <p>As for his future plans, the player has indicated an interest in coaching and has already begun work on his UEFA licenses.</p>
     `,
     category: 'Latest News',
-    tags: ['Etihad Stadium', 'Expansion', 'Infrastructure'],
-    featuredImage: 'https://images.unsplash.com/photo-1624280157150-4d1ed8632989?q=80&w=1000',
-    author: authors[0],
-    publishedDate: '2023-11-08T16:45:00Z',
+    tags: ['retirement', 'midfielder', 'fan favorite'],
+    featuredImage: 'https://placehold.co/600x400/6CADDF/1C2C5B?text=Retirement+News',
+    author: authors[2],
+    publishedDate: '2023-05-21T16:45:00.000Z',
     status: 'published',
     isFeatured: false
   }
 ];
 
-export function getRecentPosts(count = 6): BlogPost[] {
-  return [...blogPosts]
+export const getFeaturedPost = (): BlogPost | undefined => {
+  return blogPosts.find(post => post.isFeatured);
+};
+
+export const getRecentPosts = (count: number, excludeIds: string[] = []): BlogPost[] => {
+  return blogPosts
+    .filter(post => !excludeIds.includes(post.id) && post.status === 'published')
     .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
     .slice(0, count);
-}
+};
 
-export function getFeaturedPost(): BlogPost | undefined {
-  return blogPosts.find(post => post.isFeatured);
-}
-
-export function getPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find(post => post.slug === slug);
-}
-
-export function getPostsByCategory(category: string, count?: number): BlogPost[] {
-  const filtered = blogPosts.filter(post => post.category === category);
+export const getPostsByCategory = (category: Category, count?: number): BlogPost[] => {
+  const filtered = blogPosts
+    .filter(post => post.category === category && post.status === 'published')
+    .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
+  
   return count ? filtered.slice(0, count) : filtered;
-}
+};
+
+export const getPostBySlug = (slug: string): BlogPost | undefined => {
+  return blogPosts.find(post => post.slug === slug);
+};
+
+export const getRelatedPosts = (post: BlogPost, count: number = 3): BlogPost[] => {
+  // Get posts with the same category, excluding the current post
+  return blogPosts
+    .filter(p => p.id !== post.id && p.category === post.category && p.status === 'published')
+    .sort(() => 0.5 - Math.random())  // Simple random sort
+    .slice(0, count);
+};
