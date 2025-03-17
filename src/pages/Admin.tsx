@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -23,7 +22,6 @@ const Admin = () => {
       return;
     }
     
-    // Simulate loading data
     const timer = setTimeout(() => {
       setPosts(blogPosts);
       setIsLoading(false);
@@ -49,6 +47,14 @@ const Admin = () => {
       description: "The post has been successfully deleted.",
       variant: "default",
     });
+  };
+
+  const handleNewPost = () => {
+    navigate('/admin/new-post');
+  };
+
+  const handleEditPost = (id: string) => {
+    navigate(`/admin/edit-post/${id}`);
   };
 
   const filteredPosts = selectedCategory 
@@ -85,7 +91,6 @@ const Admin = () => {
             </button>
           </div>
           
-          {/* Dashboard Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="glass-panel rounded-lg p-6">
               <h2 className="text-lg font-semibold mb-2">Total Posts</h2>
@@ -105,17 +110,18 @@ const Admin = () => {
             </div>
           </div>
           
-          {/* Post Management */}
           <div className="glass-panel rounded-lg p-6 mb-8">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold">Manage Posts</h2>
-              <button className="btn btn-primary flex items-center">
+              <button 
+                onClick={handleNewPost} 
+                className="btn btn-primary flex items-center"
+              >
                 <Plus size={18} className="mr-1.5" />
                 New Post
               </button>
             </div>
             
-            {/* Category Filter */}
             <div className="mb-6">
               <div className="flex flex-wrap gap-2">
                 <button
@@ -145,7 +151,6 @@ const Admin = () => {
               </div>
             </div>
             
-            {/* Posts Table */}
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -187,6 +192,7 @@ const Admin = () => {
                       <td className="px-4 py-3 text-right">
                         <div className="flex justify-end space-x-2">
                           <button
+                            onClick={() => handleEditPost(post.id)}
                             className="p-1 text-gray-600 hover:text-city-sky transition-colors"
                             aria-label="Edit post"
                           >
@@ -214,7 +220,6 @@ const Admin = () => {
             </div>
           </div>
           
-          {/* Category Management Placeholder */}
           <div className="glass-panel rounded-lg p-6">
             <h2 className="text-xl font-bold mb-6">Manage Categories</h2>
             
