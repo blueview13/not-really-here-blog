@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getPostBySlug, getRecentPosts } from '../lib/blogData';
@@ -7,6 +6,7 @@ import Footer from '../components/Footer';
 import BlogCard from '../components/BlogCard';
 import { format } from 'date-fns';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
+import '../styles/editor.css';
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -95,7 +95,10 @@ const BlogPost = () => {
             </Link>
             
             <article className="prose prose-lg max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              <div 
+                dangerouslySetInnerHTML={{ __html: post.content }} 
+                className="prose"
+              />
             </article>
             
             <div className="mt-10 pt-8 border-t border-gray-200">

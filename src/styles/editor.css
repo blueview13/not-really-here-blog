@@ -2,13 +2,16 @@
 /* SunEditor custom styles for image alignment */
 
 /* Container for the editor content */
-.sun-editor-editable {
+.sun-editor-editable,
+.prose {
   overflow: auto;
 }
 
 /* Left-aligned images */
 .sun-editor-editable figure.align-left,
-.sun-editor-editable img.align-left {
+.sun-editor-editable img.align-left,
+.prose figure.align-left,
+.prose img.align-left {
   float: left;
   margin-right: 1em;
   margin-bottom: 1em;
@@ -16,7 +19,9 @@
 
 /* Right-aligned images */
 .sun-editor-editable figure.align-right,
-.sun-editor-editable img.align-right {
+.sun-editor-editable img.align-right,
+.prose figure.align-right,
+.prose img.align-right {
   float: right;
   margin-left: 1em;
   margin-bottom: 1em;
@@ -24,14 +29,17 @@
 
 /* Center-aligned images */
 .sun-editor-editable figure.align-center,
-.sun-editor-editable img.align-center {
+.sun-editor-editable img.align-center,
+.prose figure.align-center,
+.prose img.align-center {
   margin-left: auto;
   margin-right: auto;
   display: block;
 }
 
 /* Clearfix to ensure proper flow */
-.sun-editor-editable:after {
+.sun-editor-editable:after,
+.prose:after {
   content: "";
   display: table;
   clear: both;
@@ -44,6 +52,7 @@
 }
 
 /* Ensure text wraps around images */
-.sun-editor-editable p {
+.sun-editor-editable p,
+.prose p {
   overflow: auto;
 }
