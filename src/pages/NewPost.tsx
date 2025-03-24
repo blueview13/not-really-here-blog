@@ -7,6 +7,8 @@ import Footer from '../components/Footer';
 import { Button } from '../components/ui/button';
 import { ArrowLeft, Save } from 'lucide-react';
 import { blogPosts } from '../lib/blogData';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
 
 const NewPost = () => {
   const navigate = useNavigate();
@@ -15,6 +17,10 @@ const NewPost = () => {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+
+  const handleEditorChange = (content: string) => {
+    setContent(content);
+  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +41,7 @@ const NewPost = () => {
       id: (blogPosts.length + 1).toString(),
       title,
       slug: title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-'),
-      excerpt: content.substring(0, 120) + "...",
+      excerpt: content.replace(/<[^>]*>/g, '').substring(0, 120) + "...",
       content,
       category: category as any,
       tags: [],
@@ -63,6 +69,22 @@ const NewPost = () => {
     });
     
     navigate('/admin');
+  };
+
+  // SunEditor options
+  const editorOptions = {
+    buttonList: [
+      ['undo', 'redo'],
+      ['font', 'fontSize', 'formatBlock'],
+      ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+      ['removeFormat'],
+      ['fontColor', 'hiliteColor'],
+      ['outdent', 'indent'],
+      ['align', 'horizontalRule', 'list', 'table'],
+      ['link', 'image', 'video'],
+      ['fullScreen', 'showBlocks', 'codeView'],
+    ],
+    height: '400px',
   };
 
   return (
@@ -121,16 +143,15 @@ const NewPost = () => {
               </div>
               
               <div>
-                <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="editor" className="block text-sm font-medium text-gray-700 mb-1">
                   Content *
                 </label>
-                <textarea
-                  id="content"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-md h-64 focus:outline-none focus:ring-2 focus:ring-city-sky focus:border-transparent"
+                <SunEditor
+                  id="editor"
+                  setContents={content}
+                  onChange={handleEditorChange}
+                  setOptions={editorOptions}
                   placeholder="Write your post content here..."
-                  required
                 />
               </div>
               
