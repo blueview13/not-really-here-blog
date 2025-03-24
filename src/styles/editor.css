@@ -5,6 +5,7 @@
 .sun-editor-editable,
 .prose {
   overflow: auto;
+  width: 100%;
 }
 
 /* Left-aligned images */
@@ -15,6 +16,7 @@
   float: left;
   margin-right: 1em;
   margin-bottom: 1em;
+  max-width: 50%;
 }
 
 /* Right-aligned images */
@@ -25,6 +27,7 @@
   float: right;
   margin-left: 1em;
   margin-bottom: 1em;
+  max-width: 50%;
 }
 
 /* Center-aligned images */
@@ -55,4 +58,10 @@
 .sun-editor-editable p,
 .prose p {
   overflow: auto;
+  display: flow-root;
+}
+
+/* Additional fixes for the blog post display */
+.prose img {
+  display: inline-block;
 }
