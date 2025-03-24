@@ -57,11 +57,16 @@
 /* Ensure text wraps around images */
 .sun-editor-editable p,
 .prose p {
-  overflow: auto;
-  display: flow-root;
+  overflow: visible;
 }
 
 /* Additional fixes for the blog post display */
 .prose img {
   display: inline-block;
+}
+
+/* Fix for SunEditor's image-text flow in the published blog post */
+.prose div, 
+.prose p {
+  display: inline;
 }

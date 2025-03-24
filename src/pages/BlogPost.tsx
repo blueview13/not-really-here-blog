@@ -95,10 +95,10 @@ const BlogPost = () => {
               Back to Home
             </Link>
             
-            <article className="prose prose-lg max-w-none">
+            <article>
               <div 
                 dangerouslySetInnerHTML={{ __html: post.content }} 
-                className="prose"
+                className="prose max-w-none"
               />
             </article>
             
