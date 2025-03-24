@@ -9,6 +9,7 @@ import { blogPosts } from '../lib/blogData';
 import { ArrowLeft, Save } from 'lucide-react';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
+import '../styles/editor.css';
 
 const EditPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -84,7 +85,7 @@ const EditPost = () => {
     navigate('/admin');
   };
 
-  // SunEditor options
+  // SunEditor options with improved image settings
   const editorOptions = {
     buttonList: [
       ['undo', 'redo'],
@@ -98,6 +99,12 @@ const EditPost = () => {
       ['fullScreen', 'showBlocks', 'codeView'],
     ],
     height: '400px',
+    imageResizing: true,
+    imageAlignShow: true,
+    imageWrapperClassName: 'se-image-wrapper',
+    imageFileInput: true,
+    imageUrlInput: true,
+    imageMultipleFile: true
   };
 
   if (isLoading) {
@@ -167,11 +174,10 @@ const EditPost = () => {
               </div>
               
               <div>
-                <label htmlFor="editor" className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Content *
                 </label>
                 <SunEditor
-                  id="editor"
                   setContents={content}
                   onChange={handleEditorChange}
                   setOptions={editorOptions}

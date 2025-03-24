@@ -1,0 +1,49 @@
+
+/* SunEditor custom styles for image alignment */
+
+/* Container for the editor content */
+.sun-editor-editable {
+  overflow: auto;
+}
+
+/* Left-aligned images */
+.sun-editor-editable figure.align-left,
+.sun-editor-editable img.align-left {
+  float: left;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+/* Right-aligned images */
+.sun-editor-editable figure.align-right,
+.sun-editor-editable img.align-right {
+  float: right;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+/* Center-aligned images */
+.sun-editor-editable figure.align-center,
+.sun-editor-editable img.align-center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+/* Clearfix to ensure proper flow */
+.sun-editor-editable:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Fix for image wrapper if needed */
+.se-image-wrapper {
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* Ensure text wraps around images */
+.sun-editor-editable p {
+  overflow: auto;
+}
