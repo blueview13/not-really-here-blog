@@ -4,7 +4,7 @@
 /* Container for the editor content */
 .sun-editor-editable,
 .prose {
-  overflow: auto;
+  overflow: visible;
   width: 100%;
 }
 
@@ -54,23 +54,24 @@
   max-width: 100%;
 }
 
+/* Critical text wrapping fixes for blog post view */
+.blog-post-content {
+  display: flow-root;
+}
+
 /* Ensure text wraps around images */
-.sun-editor-editable p,
 .prose p {
+  display: block !important;
   overflow: visible;
 }
 
-/* Additional fixes for the blog post display */
-.prose img {
+/* Fix for img tags directly */
+.prose img.align-left,
+.prose img.align-right {
   display: inline-block;
 }
 
-/* Critical fix: Make paragraphs block elements in blog post view */
-.prose p {
-  display: block !important;
-}
-
-/* Ensure proper text flow in blog post view */
+/* Ensure proper text flow */
 .prose div {
-  overflow: auto;
+  overflow: visible;
 }

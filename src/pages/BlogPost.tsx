@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getPostBySlug, getRecentPosts } from '../lib/blogData';
@@ -98,7 +97,7 @@ const BlogPost = () => {
             <article className="blog-content">
               <div 
                 dangerouslySetInnerHTML={{ __html: post.content }} 
-                className="prose prose-lg prose-img:inline-block max-w-none blog-post-content"
+                className="blog-post-content prose prose-lg max-w-none"
               />
             </article>
             
