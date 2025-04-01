@@ -35,22 +35,54 @@ const BlogPost = () => {
   }, [isLoading, post, navigate]);
   
   useEffect(() => {
-    // Fix any inline style issues after content loads
+    // Enhanced image processing to fix alignment and text flow issues
     if (!isLoading && post) {
-      const images = document.querySelectorAll('.blog-post-content img');
-      images.forEach(img => {
-        const imgElement = img as HTMLElement;
-        const style = imgElement.getAttribute('style');
+      const fixTextWrapping = () => {
+        // Process all images in the blog post content
+        const images = document.querySelectorAll('.blog-post-content img');
         
-        // Add appropriate classes based on inline styles
-        if (style && style.includes('float: left')) {
-          imgElement.classList.add('align-left');
-        } else if (style && style.includes('float: right')) {
-          imgElement.classList.add('align-right');
-        } else if (style && style.includes('margin: auto')) {
-          imgElement.classList.add('align-center');
-        }
-      });
+        images.forEach(img => {
+          const imgElement = img as HTMLElement;
+          const style = imgElement.getAttribute('style');
+          
+          // Add appropriate classes based on inline styles
+          if (style && style.includes('float: left')) {
+            imgElement.classList.add('align-left');
+            imgElement.style.cssFloat = 'left'; // Ensure float is applied
+          } else if (style && style.includes('float: right')) {
+            imgElement.classList.add('align-right');
+            imgElement.style.cssFloat = 'right'; // Ensure float is applied
+          } else if (style && style.includes('margin: auto')) {
+            imgElement.classList.add('align-center');
+          }
+          
+          // Make sure image has proper display
+          imgElement.style.display = 'inline-block';
+          
+          // Find parent paragraph and ensure it has proper display
+          let parent = imgElement.parentElement;
+          while (parent && parent.className !== 'blog-post-content') {
+            if (parent.tagName === 'P') {
+              parent.style.display = 'block';
+              parent.style.overflow = 'auto'; // Ensure it contains floats
+              break;
+            }
+            parent = parent.parentElement;
+          }
+        });
+        
+        // Add proper styling to paragraphs for text wrapping
+        const paragraphs = document.querySelectorAll('.blog-post-content p');
+        paragraphs.forEach(p => {
+          const pElement = p as HTMLElement;
+          pElement.style.display = 'flow-root';
+          pElement.style.overflow = 'visible';
+        });
+      };
+      
+      // Run the fix immediately and also after a short delay in case of dynamic content loading
+      fixTextWrapping();
+      setTimeout(fixTextWrapping, 100);
     }
   }, [isLoading, post]);
   
