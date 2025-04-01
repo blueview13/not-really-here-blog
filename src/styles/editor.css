@@ -65,8 +65,12 @@
   display: inline-block;
 }
 
-/* Fix for SunEditor's image-text flow in the published blog post */
-.prose div, 
+/* Critical fix: Make paragraphs block elements in blog post view */
 .prose p {
-  display: inline;
+  display: block !important;
+}
+
+/* Ensure proper text flow in blog post view */
+.prose div {
+  overflow: auto;
 }
