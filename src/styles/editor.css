@@ -1,6 +1,4 @@
 
-/* SunEditor custom styles for image alignment */
-
 /* Container for the editor content */
 .sun-editor-editable,
 .prose {
@@ -8,44 +6,62 @@
   width: 100%;
 }
 
+/* Make sure the blog post content container allows for proper wrapping */
+.blog-post-content {
+  display: flow-root;
+  overflow: hidden; /* Contain floats */
+}
+
 /* Left-aligned images */
-.sun-editor-editable figure.align-left,
-.sun-editor-editable img.align-left,
+.blog-post-content figure.align-left,
+.blog-post-content img.align-left,
 .prose figure.align-left,
 .prose img.align-left {
   float: left;
   margin-right: 1em;
   margin-bottom: 1em;
   max-width: 50%;
+  clear: left;
 }
 
 /* Right-aligned images */
-.sun-editor-editable figure.align-right,
-.sun-editor-editable img.align-right,
+.blog-post-content figure.align-right,
+.blog-post-content img.align-right,
 .prose figure.align-right,
 .prose img.align-right {
   float: right;
   margin-left: 1em;
   margin-bottom: 1em;
   max-width: 50%;
+  clear: right;
 }
 
 /* Center-aligned images */
-.sun-editor-editable figure.align-center,
-.sun-editor-editable img.align-center,
+.blog-post-content figure.align-center,
+.blog-post-content img.align-center,
 .prose figure.align-center,
 .prose img.align-center {
   margin-left: auto;
   margin-right: auto;
   display: block;
+  clear: both;
 }
 
-/* Clearfix to ensure proper flow */
-.sun-editor-editable:after,
+/* Clear floats */
+.blog-post-content:after,
 .prose:after {
   content: "";
   display: table;
   clear: both;
+}
+
+/* Ensure paragraphs properly wrap around floated images */
+.blog-post-content p,
+.prose p {
+  display: block;
+  margin: 1em 0;
+  overflow: visible;
+  text-align: justify;
 }
 
 /* Fix for image wrapper if needed */
@@ -54,24 +70,29 @@
   max-width: 100%;
 }
 
-/* Critical text wrapping fixes for blog post view */
-.blog-post-content {
-  display: flow-root;
+/* Fix specific image alignment issues */
+.blog-post-content img[style*="float:left"],
+.blog-post-content img[style*="float: left"] {
+  float: left;
+  margin-right: 1em;
+  margin-bottom: 1em;
+  max-width: 50%;
 }
 
-/* Ensure text wraps around images */
-.prose p {
-  display: block !important;
+.blog-post-content img[style*="float:right"],
+.blog-post-content img[style*="float: right"] {
+  float: right;
+  margin-left: 1em;
+  margin-bottom: 1em;
+  max-width: 50%;
+}
+
+/* Ensure divs don't break text flow */
+.blog-post-content div {
   overflow: visible;
 }
 
-/* Fix for img tags directly */
-.prose img.align-left,
-.prose img.align-right {
-  display: inline-block;
-}
-
-/* Ensure proper text flow */
-.prose div {
-  overflow: visible;
+/* Force text to flow around images */
+.blog-post-content img + p {
+  display: inline;
 }

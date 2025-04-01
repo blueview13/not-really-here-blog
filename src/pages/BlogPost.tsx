@@ -34,6 +34,26 @@ const BlogPost = () => {
     }
   }, [isLoading, post, navigate]);
   
+  useEffect(() => {
+    // Fix any inline style issues after content loads
+    if (!isLoading && post) {
+      const images = document.querySelectorAll('.blog-post-content img');
+      images.forEach(img => {
+        const imgElement = img as HTMLElement;
+        const style = imgElement.getAttribute('style');
+        
+        // Add appropriate classes based on inline styles
+        if (style && style.includes('float: left')) {
+          imgElement.classList.add('align-left');
+        } else if (style && style.includes('float: right')) {
+          imgElement.classList.add('align-right');
+        } else if (style && style.includes('margin: auto')) {
+          imgElement.classList.add('align-center');
+        }
+      });
+    }
+  }, [isLoading, post]);
+  
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
