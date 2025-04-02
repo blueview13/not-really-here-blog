@@ -1,5 +1,4 @@
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getPostBySlug, getRecentPosts } from '../lib/blogData';
 import Navbar from '../components/Navbar';
@@ -13,6 +12,7 @@ const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const contentRef = useRef<HTMLDivElement>(null);
   
   const post = slug ? getPostBySlug(slug) : undefined;
   const relatedPosts = getRecentPosts(3).filter(p => p.id !== post?.id);
@@ -34,55 +34,67 @@ const BlogPost = () => {
     }
   }, [isLoading, post, navigate]);
   
-  useEffect(() => {
-    // Enhanced image processing to fix alignment and text flow issues
-    if (!isLoading && post) {
-      const fixTextWrapping = () => {
-        // Process all images in the blog post content
-        const images = document.querySelectorAll('.blog-post-content img');
-        
-        images.forEach(img => {
-          const imgElement = img as HTMLElement;
-          const style = imgElement.getAttribute('style');
-          
-          // Add appropriate classes based on inline styles
-          if (style && style.includes('float: left')) {
-            imgElement.classList.add('align-left');
-            imgElement.style.cssFloat = 'left'; // Ensure float is applied
-          } else if (style && style.includes('float: right')) {
-            imgElement.classList.add('align-right');
-            imgElement.style.cssFloat = 'right'; // Ensure float is applied
-          } else if (style && style.includes('margin: auto')) {
-            imgElement.classList.add('align-center');
-          }
-          
-          // Make sure image has proper display
-          imgElement.style.display = 'inline-block';
-          
-          // Find parent paragraph and ensure it has proper display
-          let parent = imgElement.parentElement;
-          while (parent && parent.className !== 'blog-post-content') {
-            if (parent.tagName === 'P') {
-              parent.style.display = 'block';
-              parent.style.overflow = 'auto'; // Ensure it contains floats
-              break;
-            }
-            parent = parent.parentElement;
-          }
-        });
-        
-        // Add proper styling to paragraphs for text wrapping
-        const paragraphs = document.querySelectorAll('.blog-post-content p');
-        paragraphs.forEach(p => {
-          const pElement = p as HTMLElement;
-          pElement.style.display = 'flow-root';
-          pElement.style.overflow = 'visible';
-        });
-      };
+  const processImagesForTextFlow = () => {
+    if (!contentRef.current || !post) return;
+    
+    const content = contentRef.current;
+    
+    // Process all images in the blog post content
+    const images = content.querySelectorAll('img');
+    
+    console.log(`Processing ${images.length} images for text flow`);
+    
+    images.forEach((img, index) => {
+      // Check for inline styles first
+      const style = img.getAttribute('style') || '';
       
-      // Run the fix immediately and also after a short delay in case of dynamic content loading
-      fixTextWrapping();
-      setTimeout(fixTextWrapping, 100);
+      // Log what we're processing
+      console.log(`Image ${index+1} style: ${style}`);
+      
+      // Apply the correct alignment classes and ensure float property is set
+      if (style.includes('float: left') || style.includes('float:left')) {
+        img.classList.add('align-left');
+        img.style.float = 'left';
+        console.log(`Applied left alignment to image ${index+1}`);
+      } else if (style.includes('float: right') || style.includes('float:right')) {
+        img.classList.add('align-right');
+        img.style.float = 'right';
+        console.log(`Applied right alignment to image ${index+1}`);
+      } else if (style.includes('margin: auto')) {
+        img.classList.add('align-center');
+        img.style.display = 'block';
+        console.log(`Applied center alignment to image ${index+1}`);
+      }
+      
+      // Also look for parent elements that might need adjustment
+      const parentElement = img.parentElement;
+      if (parentElement && (parentElement.tagName === 'FIGURE' || parentElement.classList.contains('se-component'))) {
+        // If inline styles specify alignment, apply to parent as well
+        if (style.includes('float: left') || style.includes('float:left')) {
+          parentElement.classList.add('align-left');
+          parentElement.style.float = 'left';
+        } else if (style.includes('float: right') || style.includes('float:right')) {
+          parentElement.classList.add('align-right'); 
+          parentElement.style.float = 'right';
+        }
+      }
+    });
+    
+    // Make sure all paragraphs properly wrap around floated images
+    const paragraphs = content.querySelectorAll('p');
+    paragraphs.forEach(p => {
+      p.style.display = 'flow-root';
+    });
+  };
+  
+  useEffect(() => {
+    if (!isLoading && post) {
+      // Process images immediately after content is loaded
+      processImagesForTextFlow();
+      
+      // Also run after a short delay to handle any dynamic content or delayed rendering
+      const timer = setTimeout(processImagesForTextFlow, 200);
+      return () => clearTimeout(timer);
     }
   }, [isLoading, post]);
   
@@ -149,6 +161,7 @@ const BlogPost = () => {
             
             <article className="blog-content">
               <div 
+                ref={contentRef}
                 dangerouslySetInnerHTML={{ __html: post.content }} 
                 className="blog-post-content prose prose-lg max-w-none"
               />
@@ -185,7 +198,7 @@ const BlogPost = () => {
           </div>
         </section>
         
-        {/* Comment Section Placeholder */}
+        {/* Comment Section */}
         <section className="py-12 px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Comments</h2>

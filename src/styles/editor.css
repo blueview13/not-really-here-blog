@@ -1,126 +1,111 @@
 
-/* Container for the editor content */
+/* Base styles for editor content */
 .sun-editor-editable,
 .prose {
   overflow: visible;
   width: 100%;
 }
 
-/* Make sure the blog post content container allows for proper wrapping */
+/* Content container base styles */
 .blog-post-content {
-  display: flow-root;
-  overflow: hidden; /* Contain floats */
+  display: block;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
+/* 
+ * IMAGE ALIGNMENT STYLES 
+ * These are critical for text flow
+ */
+
 /* Left-aligned images */
-.blog-post-content figure.align-left,
 .blog-post-content img.align-left,
-.prose figure.align-left,
-.prose img.align-left {
-  float: left;
-  margin-right: 1em;
-  margin-bottom: 1em;
-  max-width: 50%;
-  clear: left;
+.blog-post-content figure.align-left,
+.blog-post-content .se-component.align-left,
+.blog-post-content [style*="float: left"],
+.blog-post-content [style*="float:left"] {
+  float: left !important;
+  margin-right: 1em !important;
+  margin-bottom: 0.5em !important;
+  max-width: 50% !important;
+  clear: left !important;
 }
 
 /* Right-aligned images */
-.blog-post-content figure.align-right,
 .blog-post-content img.align-right,
-.prose figure.align-right,
-.prose img.align-right {
-  float: right;
-  margin-left: 1em;
-  margin-bottom: 1em;
-  max-width: 50%;
-  clear: right;
+.blog-post-content figure.align-right,
+.blog-post-content .se-component.align-right,
+.blog-post-content [style*="float: right"],
+.blog-post-content [style*="float:right"] {
+  float: right !important;
+  margin-left: 1em !important;
+  margin-bottom: 0.5em !important;
+  max-width: 50% !important;
+  clear: right !important;
 }
 
 /* Center-aligned images */
-.blog-post-content figure.align-center,
 .blog-post-content img.align-center,
-.prose figure.align-center,
-.prose img.align-center {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  clear: both;
+.blog-post-content figure.align-center,
+.blog-post-content .se-component.align-center {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+  clear: both !important;
 }
 
-/* Clear floats */
-.blog-post-content:after,
-.prose:after {
+/* 
+ * CRITICAL TEXT FLOW RULES 
+ */
+
+/* Create block formatting context for paragraphs to properly wrap around floats */
+.blog-post-content p {
+  display: flow-root;
+  margin: 1em 0;
+  overflow: visible;
+}
+
+/* Create proper container for the blog content */
+.blog-post-content {
+  display: flow-root;
+  overflow: hidden;
+}
+
+/* Fix for SunEditor wrappers */
+.se-wrapper-inner {
+  overflow: visible !important;
+}
+
+/* Make sure SunEditor components don't break the flow */
+.blog-post-content .se-component {
+  max-width: 100%;
+  overflow: visible;
+  clear: none;
+  display: inline-block;
+}
+
+/* Reset any problematic inherited styles that might interfere with floats */
+.blog-post-content span,
+.blog-post-content a {
+  display: inline;
+}
+
+/* Clear floats after the content */
+.blog-post-content::after {
   content: "";
   display: table;
   clear: both;
 }
 
-/* Ensure paragraphs properly wrap around floated images */
-.blog-post-content p,
-.prose p {
-  display: block;
-  margin: 1em 0;
-  overflow: visible;
-  text-align: justify;
+/* Ensure images have proper display mode */
+.blog-post-content img {
+  max-width: 100%;
+  height: auto;
 }
 
-/* Fix for image wrapper if needed */
-.se-image-wrapper {
+/* Fix for image containers */
+.sun-editor .se-image-container {
   display: inline-block;
   max-width: 100%;
-}
-
-/* Fix specific image alignment issues */
-.blog-post-content img[style*="float:left"],
-.blog-post-content img[style*="float: left"] {
-  float: left;
-  margin-right: 1em;
-  margin-bottom: 1em;
-  max-width: 50%;
-}
-
-.blog-post-content img[style*="float:right"],
-.blog-post-content img[style*="float: right"] {
-  float: right;
-  margin-left: 1em;
-  margin-bottom: 1em;
-  max-width: 50%;
-}
-
-/* Ensure divs don't break text flow */
-.blog-post-content div {
-  overflow: visible;
-}
-
-/* IMPORTANT: Fix text wrapping - this is critical for text flow */
-.blog-post-content p {
-  display: flow-root !important; /* Force paragraphs to establish new block formatting contexts */
-}
-
-/* Remove display:inline which breaks proper paragraph flow */
-.blog-post-content img + p {
-  display: block;
-}
-
-/* Support images within spans or other containers */
-.blog-post-content span img.align-left,
-.blog-post-content span img.align-right {
-  display: inline-block;
-}
-
-/* Fix for SunEditor specific image containers */
-.blog-post-content .se-component {
-  clear: none;
-  overflow: visible;
-}
-
-/* Ensure image containers don't disrupt flow */
-.blog-post-content .se-image-container {
-  display: inline;
-  max-width: 100%;
-}
-
-/* Additional fixes for SunEditor image wrappers */
-.sun-editor .se-wrapper {
   overflow: visible;
 }
