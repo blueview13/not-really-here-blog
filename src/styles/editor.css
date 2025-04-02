@@ -22,11 +22,14 @@
 .blog-post-content img.align-left,
 .blog-post-content figure.align-left,
 .blog-post-content .se-component.align-left,
-.blog-post-content [style*="float: left"],
-.blog-post-content [style*="float:left"] {
+.blog-post-content figure[style*="float: left"] img,
+.blog-post-content figure[style*="float:left"] img,
+.blog-post-content img[style*="float: left"],
+.blog-post-content img[style*="float:left"] {
   float: left !important;
   margin-right: 1em !important;
   margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
   max-width: 50% !important;
   clear: left !important;
 }
@@ -35,11 +38,14 @@
 .blog-post-content img.align-right,
 .blog-post-content figure.align-right,
 .blog-post-content .se-component.align-right,
-.blog-post-content [style*="float: right"],
-.blog-post-content [style*="float:right"] {
+.blog-post-content figure[style*="float: right"] img,
+.blog-post-content figure[style*="float:right"] img,
+.blog-post-content img[style*="float: right"],
+.blog-post-content img[style*="float:right"] {
   float: right !important;
   margin-left: 1em !important;
   margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
   max-width: 50% !important;
   clear: right !important;
 }
@@ -47,7 +53,9 @@
 /* Center-aligned images */
 .blog-post-content img.align-center,
 .blog-post-content figure.align-center,
-.blog-post-content .se-component.align-center {
+.blog-post-content .se-component.align-center,
+.blog-post-content figure[style*="margin: auto"] img,
+.blog-post-content img[style*="margin: auto"] {
   margin-left: auto !important;
   margin-right: auto !important;
   display: block !important;
@@ -108,4 +116,28 @@
   display: inline-block;
   max-width: 100%;
   overflow: visible;
+}
+
+/* Additional fixes for SunEditor figure elements */
+.blog-post-content figure.se-image-container[style*="float: left"],
+.blog-post-content figure.se-image-container[style*="float:left"] {
+  float: left !important;
+  margin-right: 1em !important;
+  margin-bottom: 0.5em !important;
+  max-width: 50% !important;
+}
+
+.blog-post-content figure.se-image-container[style*="float: right"],
+.blog-post-content figure.se-image-container[style*="float:right"] {
+  float: right !important;
+  margin-left: 1em !important;
+  margin-bottom: 0.5em !important;
+  max-width: 50% !important;
+}
+
+/* Ensure SunEditor figure element preserves its float styles */
+.blog-post-content figure.se-image-container {
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
 }

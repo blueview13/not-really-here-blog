@@ -41,17 +41,14 @@ const BlogPost = () => {
     
     // Process all images in the blog post content
     const images = content.querySelectorAll('img');
-    
     console.log(`Processing ${images.length} images for text flow`);
     
     images.forEach((img, index) => {
-      // Check for inline styles first
+      // Check for style or parent attributes that indicate alignment
       const style = img.getAttribute('style') || '';
-      
-      // Log what we're processing
       console.log(`Image ${index+1} style: ${style}`);
       
-      // Apply the correct alignment classes and ensure float property is set
+      // Apply direct inline float to ensure alignment works
       if (style.includes('float: left') || style.includes('float:left')) {
         img.classList.add('align-left');
         img.style.float = 'left';
@@ -66,35 +63,66 @@ const BlogPost = () => {
         console.log(`Applied center alignment to image ${index+1}`);
       }
       
-      // Also look for parent elements that might need adjustment
+      // Process parent elements (figures) in SunEditor
       const parentElement = img.parentElement;
-      if (parentElement && (parentElement.tagName === 'FIGURE' || parentElement.classList.contains('se-component'))) {
-        // If inline styles specify alignment, apply to parent as well
-        if (style.includes('float: left') || style.includes('float:left')) {
-          parentElement.classList.add('align-left');
-          parentElement.style.float = 'left';
-        } else if (style.includes('float: right') || style.includes('float:right')) {
-          parentElement.classList.add('align-right'); 
-          parentElement.style.float = 'right';
+      if (parentElement) {
+        console.log(`Parent element tag: ${parentElement.tagName}, class: ${parentElement.className}`);
+        
+        // Handle figure elements with alignment styles
+        if (parentElement.tagName === 'FIGURE' || parentElement.classList.contains('se-component')) {
+          const parentStyle = parentElement.getAttribute('style') || '';
+          console.log(`Parent style: ${parentStyle}`);
+          
+          // Apply alignment classes and inline styles to ensure proper rendering
+          if (parentStyle.includes('float: left') || parentStyle.includes('float:left')) {
+            parentElement.classList.add('align-left');
+            parentElement.style.float = 'left';
+            img.classList.add('align-left');
+            img.style.float = 'left';
+            console.log('Applied left alignment to parent and image');
+          } else if (parentStyle.includes('float: right') || parentStyle.includes('float:right')) {
+            parentElement.classList.add('align-right');
+            parentElement.style.float = 'right';
+            img.classList.add('align-right');
+            img.style.float = 'right';
+            console.log('Applied right alignment to parent and image');
+          } else if (parentStyle.includes('margin: auto')) {
+            parentElement.classList.add('align-center');
+            img.classList.add('align-center');
+            console.log('Applied center alignment to parent and image');
+          }
         }
       }
     });
     
     // Make sure all paragraphs properly wrap around floated images
     const paragraphs = content.querySelectorAll('p');
+    console.log(`Processing ${paragraphs.length} paragraphs for flow-root`);
     paragraphs.forEach(p => {
       p.style.display = 'flow-root';
     });
+    
+    // Force a reflow of the DOM to ensure styles are applied
+    content.style.display = 'none';
+    // Force layout recalculation
+    void content.offsetHeight;
+    content.style.display = 'flow-root';
   };
   
   useEffect(() => {
     if (!isLoading && post) {
-      // Process images immediately after content is loaded
+      // Process images after content is loaded with multiple attempts
+      // to ensure dynamic content is properly handled
       processImagesForTextFlow();
       
-      // Also run after a short delay to handle any dynamic content or delayed rendering
-      const timer = setTimeout(processImagesForTextFlow, 200);
-      return () => clearTimeout(timer);
+      // Run several times to catch any delayed rendering issues
+      const timer1 = setTimeout(processImagesForTextFlow, 100);
+      const timer2 = setTimeout(processImagesForTextFlow, 500);
+      
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      };
     }
   }, [isLoading, post]);
   
