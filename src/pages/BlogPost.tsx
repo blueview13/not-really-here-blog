@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getPostBySlug, getRecentPosts } from '../lib/blogData';
@@ -34,94 +35,125 @@ const BlogPost = () => {
     }
   }, [isLoading, post, navigate]);
   
-  const processImagesForTextFlow = () => {
-    if (!contentRef.current || !post) return;
+  const processImages = () => {
+    if (!contentRef.current) return;
     
     const content = contentRef.current;
+    console.log("Processing images for alignment and text flow");
     
-    // Process all images in the blog post content
-    const images = content.querySelectorAll('img');
-    console.log(`Processing ${images.length} images for text flow`);
-    
-    images.forEach((img, index) => {
-      // Check for style or parent attributes that indicate alignment
-      const style = img.getAttribute('style') || '';
-      console.log(`Image ${index+1} style: ${style}`);
+    // Process all images inside figures/containers first
+    const figures = content.querySelectorAll('figure, .se-component, .se-image-container');
+    figures.forEach((figure, i) => {
+      const img = figure.querySelector('img');
+      if (!img) return;
       
-      // Apply direct inline float to ensure alignment works
+      const style = figure.getAttribute('style') || '';
+      console.log(`Figure ${i} style: ${style}`);
+      
+      // Remove any existing alignment classes
+      figure.classList.remove('left-float', 'right-float', 'center-align');
+      
+      // Apply appropriate class based on style
       if (style.includes('float: left') || style.includes('float:left')) {
-        img.classList.add('align-left');
-        img.style.float = 'left';
-        console.log(`Applied left alignment to image ${index+1}`);
+        figure.classList.add('left-float');
+        console.log(`Applied left-float to figure ${i}`);
+        if (img) {
+          img.classList.add('left-float');
+        }
       } else if (style.includes('float: right') || style.includes('float:right')) {
-        img.classList.add('align-right');
-        img.style.float = 'right';
-        console.log(`Applied right alignment to image ${index+1}`);
+        figure.classList.add('right-float');
+        console.log(`Applied right-float to figure ${i}`);
+        if (img) {
+          img.classList.add('right-float');
+        }
       } else if (style.includes('margin: auto')) {
-        img.classList.add('align-center');
-        img.style.display = 'block';
-        console.log(`Applied center alignment to image ${index+1}`);
-      }
-      
-      // Process parent elements (figures) in SunEditor
-      const parentElement = img.parentElement;
-      if (parentElement) {
-        console.log(`Parent element tag: ${parentElement.tagName}, class: ${parentElement.className}`);
-        
-        // Handle figure elements with alignment styles
-        if (parentElement.tagName === 'FIGURE' || parentElement.classList.contains('se-component')) {
-          const parentStyle = parentElement.getAttribute('style') || '';
-          console.log(`Parent style: ${parentStyle}`);
-          
-          // Apply alignment classes and inline styles to ensure proper rendering
-          if (parentStyle.includes('float: left') || parentStyle.includes('float:left')) {
-            parentElement.classList.add('align-left');
-            parentElement.style.float = 'left';
-            img.classList.add('align-left');
-            img.style.float = 'left';
-            console.log('Applied left alignment to parent and image');
-          } else if (parentStyle.includes('float: right') || parentStyle.includes('float:right')) {
-            parentElement.classList.add('align-right');
-            parentElement.style.float = 'right';
-            img.classList.add('align-right');
-            img.style.float = 'right';
-            console.log('Applied right alignment to parent and image');
-          } else if (parentStyle.includes('margin: auto')) {
-            parentElement.classList.add('align-center');
-            img.classList.add('align-center');
-            console.log('Applied center alignment to parent and image');
-          }
+        figure.classList.add('center-align');
+        console.log(`Applied center-align to figure ${i}`);
+        if (img) {
+          img.classList.add('center-align');
         }
       }
     });
     
-    // Make sure all paragraphs properly wrap around floated images
-    const paragraphs = content.querySelectorAll('p');
-    console.log(`Processing ${paragraphs.length} paragraphs for flow-root`);
-    paragraphs.forEach(p => {
-      p.style.display = 'flow-root';
+    // Process direct images
+    const images = content.querySelectorAll('img');
+    images.forEach((img, i) => {
+      const style = img.getAttribute('style') || '';
+      console.log(`Direct image ${i} style: ${style}`);
+      
+      // Skip if this image is inside a figure we already processed
+      const isInProcessedFigure = 
+        img.parentElement && 
+        (img.parentElement.classList.contains('left-float') || 
+         img.parentElement.classList.contains('right-float') || 
+         img.parentElement.classList.contains('center-align'));
+         
+      if (isInProcessedFigure) {
+        console.log(`Skipping image ${i} as it's in a processed figure`);
+        return;
+      }
+      
+      // Remove any existing alignment classes
+      img.classList.remove('left-float', 'right-float', 'center-align');
+      
+      // Apply appropriate class based on style
+      if (style.includes('float: left') || style.includes('float:left')) {
+        img.classList.add('left-float');
+        // Also explicitly set inline style to ensure it works
+        img.style.float = 'left';
+        console.log(`Applied left-float to image ${i}`);
+      } else if (style.includes('float: right') || style.includes('float:right')) {
+        img.classList.add('right-float');
+        // Also explicitly set inline style to ensure it works
+        img.style.float = 'right';
+        console.log(`Applied right-float to image ${i}`);
+      } else if (style.includes('margin: auto')) {
+        img.classList.add('center-align');
+        img.style.display = 'block';
+        img.style.marginLeft = 'auto';
+        img.style.marginRight = 'auto';
+        console.log(`Applied center-align to image ${i}`);
+      }
     });
     
-    // Force a reflow of the DOM to ensure styles are applied
-    content.style.display = 'none';
-    // Force layout recalculation
-    void content.offsetHeight;
-    content.style.display = 'flow-root';
+    // Force DOM reflow by temporarily removing and reattaching content
+    const parent = content.parentElement;
+    if (parent) {
+      const temp = document.createElement('div');
+      parent.replaceChild(temp, content);
+      parent.replaceChild(content, temp);
+    }
   };
   
   useEffect(() => {
-    if (!isLoading && post) {
-      // Process images after content is loaded with multiple attempts
-      // to ensure dynamic content is properly handled
-      processImagesForTextFlow();
+    if (!isLoading && post && contentRef.current) {
+      // Run image processing multiple times to catch any late-rendering issues
+      processImages();
       
-      // Run several times to catch any delayed rendering issues
-      const timer1 = setTimeout(processImagesForTextFlow, 100);
-      const timer2 = setTimeout(processImagesForTextFlow, 500);
+      // Schedule multiple runs with increasing delays
+      const timers = [
+        setTimeout(processImages, 100),
+        setTimeout(processImages, 300),
+        setTimeout(processImages, 700),
+        setTimeout(processImages, 1500)
+      ];
+      
+      // Observe any DOM changes and reprocess as needed
+      const observer = new MutationObserver(() => {
+        console.log("DOM changed, reprocessing images");
+        processImages();
+      });
+      
+      observer.observe(contentRef.current, { 
+        childList: true, 
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class']
+      });
       
       return () => {
-        clearTimeout(timer1);
-        clearTimeout(timer2);
+        timers.forEach(clearTimeout);
+        observer.disconnect();
       };
     }
   }, [isLoading, post]);
@@ -191,7 +223,7 @@ const BlogPost = () => {
               <div 
                 ref={contentRef}
                 dangerouslySetInnerHTML={{ __html: post.content }} 
-                className="blog-post-content prose prose-lg max-w-none"
+                className="blog-post-content"
               />
             </article>
             

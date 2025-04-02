@@ -13,17 +13,56 @@
   word-wrap: break-word;
 }
 
-/* 
- * IMAGE ALIGNMENT STYLES 
- * These are critical for text flow
- */
+/* Clear fix to prevent container collapse when containing floated elements */
+.blog-post-content:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
-/* Left-aligned images */
-.blog-post-content img.align-left,
-.blog-post-content figure.align-left,
-.blog-post-content .se-component.align-left,
-.blog-post-content figure[style*="float: left"] img,
-.blog-post-content figure[style*="float:left"] img,
+/* Make paragraphs properly flow around images */
+.blog-post-content p {
+  display: block;
+  margin: 1em 0;
+  overflow: visible;
+}
+
+/* ===== IMAGE ALIGNMENT STYLES ===== */
+
+/* Left-aligned images - direct styling */
+.blog-post-content img.left-float,
+.blog-post-content figure.left-float,
+.blog-post-content .se-component.left-float {
+  float: left !important;
+  margin-right: 1em !important;
+  margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
+  max-width: 50% !important;
+}
+
+/* Right-aligned images - direct styling */
+.blog-post-content img.right-float,
+.blog-post-content figure.right-float,
+.blog-post-content .se-component.right-float {
+  float: right !important;
+  margin-left: 1em !important;
+  margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
+  max-width: 50% !important;
+}
+
+/* Center-aligned images - direct styling */
+.blog-post-content img.center-align,
+.blog-post-content figure.center-align,
+.blog-post-content .se-component.center-align {
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+  clear: both !important;
+}
+
+/* Handle traditional inline style-based alignments */
 .blog-post-content img[style*="float: left"],
 .blog-post-content img[style*="float:left"] {
   float: left !important;
@@ -31,15 +70,8 @@
   margin-bottom: 0.5em !important;
   margin-top: 0.5em !important;
   max-width: 50% !important;
-  clear: left !important;
 }
 
-/* Right-aligned images */
-.blog-post-content img.align-right,
-.blog-post-content figure.align-right,
-.blog-post-content .se-component.align-right,
-.blog-post-content figure[style*="float: right"] img,
-.blog-post-content figure[style*="float:right"] img,
 .blog-post-content img[style*="float: right"],
 .blog-post-content img[style*="float:right"] {
   float: right !important;
@@ -47,62 +79,45 @@
   margin-bottom: 0.5em !important;
   margin-top: 0.5em !important;
   max-width: 50% !important;
-  clear: right !important;
 }
 
-/* Center-aligned images */
-.blog-post-content img.align-center,
-.blog-post-content figure.align-center,
-.blog-post-content .se-component.align-center,
-.blog-post-content figure[style*="margin: auto"] img,
 .blog-post-content img[style*="margin: auto"] {
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+/* Handle parent elements that have alignment styles */
+.blog-post-content figure[style*="float: left"],
+.blog-post-content figure[style*="float:left"],
+.blog-post-content .se-component[style*="float: left"],
+.blog-post-content .se-component[style*="float:left"] {
+  float: left !important;
+  margin-right: 1em !important;
+  margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
+  max-width: 50% !important;
+}
+
+.blog-post-content figure[style*="float: right"],
+.blog-post-content figure[style*="float:right"],
+.blog-post-content .se-component[style*="float: right"],
+.blog-post-content .se-component[style*="float:right"] {
+  float: right !important;
+  margin-left: 1em !important;
+  margin-bottom: 0.5em !important;
+  margin-top: 0.5em !important;
+  max-width: 50% !important;
+}
+
+.blog-post-content figure[style*="margin: auto"],
+.blog-post-content .se-component[style*="margin: auto"] {
+  float: none !important;
   margin-left: auto !important;
   margin-right: auto !important;
   display: block !important;
   clear: both !important;
-}
-
-/* 
- * CRITICAL TEXT FLOW RULES 
- */
-
-/* Create block formatting context for paragraphs to properly wrap around floats */
-.blog-post-content p {
-  display: flow-root;
-  margin: 1em 0;
-  overflow: visible;
-}
-
-/* Create proper container for the blog content */
-.blog-post-content {
-  display: flow-root;
-  overflow: hidden;
-}
-
-/* Fix for SunEditor wrappers */
-.se-wrapper-inner {
-  overflow: visible !important;
-}
-
-/* Make sure SunEditor components don't break the flow */
-.blog-post-content .se-component {
-  max-width: 100%;
-  overflow: visible;
-  clear: none;
-  display: inline-block;
-}
-
-/* Reset any problematic inherited styles that might interfere with floats */
-.blog-post-content span,
-.blog-post-content a {
-  display: inline;
-}
-
-/* Clear floats after the content */
-.blog-post-content::after {
-  content: "";
-  display: table;
-  clear: both;
 }
 
 /* Ensure images have proper display mode */
@@ -111,33 +126,14 @@
   height: auto;
 }
 
-/* Fix for image containers */
+/* Ensure figures and components don't break layout */
+.blog-post-content figure,
+.blog-post-content .se-component {
+  max-width: 100%;
+  margin: 0.5em 0;
+}
+
+/* SunEditor specific styles */
 .sun-editor .se-image-container {
-  display: inline-block;
   max-width: 100%;
-  overflow: visible;
-}
-
-/* Additional fixes for SunEditor figure elements */
-.blog-post-content figure.se-image-container[style*="float: left"],
-.blog-post-content figure.se-image-container[style*="float:left"] {
-  float: left !important;
-  margin-right: 1em !important;
-  margin-bottom: 0.5em !important;
-  max-width: 50% !important;
-}
-
-.blog-post-content figure.se-image-container[style*="float: right"],
-.blog-post-content figure.se-image-container[style*="float:right"] {
-  float: right !important;
-  margin-left: 1em !important;
-  margin-bottom: 0.5em !important;
-  max-width: 50% !important;
-}
-
-/* Ensure SunEditor figure element preserves its float styles */
-.blog-post-content figure.se-image-container {
-  display: inline-block;
-  max-width: 100%;
-  margin: 0;
 }
