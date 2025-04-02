@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getPostBySlug, getRecentPosts } from '../lib/blogData';
@@ -90,16 +91,16 @@ const BlogPost = () => {
         
         // Enforce float with inline styles as well for maximum compatibility
         if (alignClass === 'align-left') {
-          container.style.cssText += '; float: left !important; margin-right: 1em !important; max-width: 50% !important;';
-          img.style.cssText += '; float: left !important;';
+          (container as HTMLElement).style.cssText += '; float: left !important; margin-right: 1em !important; max-width: 50% !important;';
+          (img as HTMLElement).style.cssText += '; float: left !important;';
           console.log('Applied left alignment to container and image');
         } else if (alignClass === 'align-right') {
-          container.style.cssText += '; float: right !important; margin-left: 1em !important; max-width: 50% !important;';
-          img.style.cssText += '; float: right !important;';
+          (container as HTMLElement).style.cssText += '; float: right !important; margin-left: 1em !important; max-width: 50% !important;';
+          (img as HTMLElement).style.cssText += '; float: right !important;';
           console.log('Applied right alignment to container and image');
         } else if (alignClass === 'align-center') {
-          container.style.cssText += '; float: none !important; margin-left: auto !important; margin-right: auto !important;';
-          img.style.cssText += '; float: none !important; margin-left: auto !important; margin-right: auto !important;';
+          (container as HTMLElement).style.cssText += '; float: none !important; margin-left: auto !important; margin-right: auto !important;';
+          (img as HTMLElement).style.cssText += '; float: none !important; margin-left: auto !important; margin-right: auto !important;';
           console.log('Applied center alignment to container and image');
         }
       }
@@ -125,13 +126,13 @@ const BlogPost = () => {
         
         // Enforce float with inline styles
         if (alignClass === 'align-left') {
-          img.style.cssText += '; float: left !important; margin-right: 1em !important; max-width: 50% !important;';
+          (img as HTMLElement).style.cssText += '; float: left !important; margin-right: 1em !important; max-width: 50% !important;';
           console.log('Applied left alignment to direct image');
         } else if (alignClass === 'align-right') {
-          img.style.cssText += '; float: right !important; margin-left: 1em !important; max-width: 50% !important;';
+          (img as HTMLElement).style.cssText += '; float: right !important; margin-left: 1em !important; max-width: 50% !important;';
           console.log('Applied right alignment to direct image');
         } else if (alignClass === 'align-center') {
-          img.style.cssText += '; float: none !important; display: block !important; margin-left: auto !important; margin-right: auto !important;';
+          (img as HTMLElement).style.cssText += '; float: none !important; display: block !important; margin-left: auto !important; margin-right: auto !important;';
           console.log('Applied center alignment to direct image');
         }
       }
