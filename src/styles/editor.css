@@ -15,10 +15,13 @@
 }
 
 /* Clear fix to prevent container collapse when containing floated elements */
-.blog-post-content:after {
+.blog-post-content:after,
+.image-clearfix {
   content: "" !important;
-  display: table !important;
+  display: block !important;
   clear: both !important;
+  height: 0 !important;
+  visibility: hidden !important;
 }
 
 /* Make paragraphs properly flow around images */
@@ -28,44 +31,46 @@
   overflow: visible !important;
 }
 
-/* LEFT ALIGNMENT - Force left alignment with !important */
+/* LEFT ALIGNMENT */
 .blog-post-content img.align-left,
 .blog-post-content figure.align-left,
 .blog-post-content div.align-left,
 .blog-post-content .se-component.align-left,
 .blog-post-content .se-image-container.align-left {
-  display: inline-block !important;
   float: left !important;
   margin-right: 1em !important;
   margin-bottom: 0.5em !important;
   margin-top: 0.5em !important;
   max-width: 50% !important;
+  display: inline-block !important;
 }
 
-/* RIGHT ALIGNMENT - Force right alignment with !important */
+/* RIGHT ALIGNMENT */
 .blog-post-content img.align-right,
 .blog-post-content figure.align-right,
 .blog-post-content div.align-right,
 .blog-post-content .se-component.align-right,
 .blog-post-content .se-image-container.align-right {
-  display: inline-block !important;
   float: right !important;
   margin-left: 1em !important;
   margin-bottom: 0.5em !important;
   margin-top: 0.5em !important;
   max-width: 50% !important;
+  display: inline-block !important;
 }
 
-/* CENTER ALIGNMENT - Force center alignment with !important */
+/* CENTER ALIGNMENT */
 .blog-post-content img.align-center,
 .blog-post-content figure.align-center,
 .blog-post-content div.align-center,
 .blog-post-content .se-component.align-center,
 .blog-post-content .se-image-container.align-center {
-  display: block !important;
   float: none !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  margin-bottom: 1em !important;
+  margin-top: 1em !important;
+  display: block !important;
   clear: both !important;
 }
 
@@ -75,16 +80,10 @@
   height: auto !important;
 }
 
-/* For backwards compatibility */
-.blog-post-content img[style*="float: left"],
-.blog-post-content img[style*="float:left"],
-.blog-post-content figure[style*="float: left"],
-.blog-post-content figure[style*="float:left"],
-.blog-post-content div[style*="float: left"],
-.blog-post-content div[style*="float:left"],
-.blog-post-content .se-component[style*="float: left"],
-.blog-post-content .se-component[style*="float:left"] {
-  display: inline-block !important;
+/* For backwards compatibility - removing all inline style manipulations 
+   and relying exclusively on classes */
+.blog-post-content *[style*="float: left"],
+.blog-post-content *[style*="float:left"] {
   float: left !important;
   margin-right: 1em !important;
   margin-bottom: 0.5em !important;
@@ -92,15 +91,8 @@
   max-width: 50% !important;
 }
 
-.blog-post-content img[style*="float: right"],
-.blog-post-content img[style*="float:right"],
-.blog-post-content figure[style*="float: right"],
-.blog-post-content figure[style*="float:right"],
-.blog-post-content div[style*="float: right"],
-.blog-post-content div[style*="float:right"],
-.blog-post-content .se-component[style*="float: right"],
-.blog-post-content .se-component[style*="float:right"] {
-  display: inline-block !important;
+.blog-post-content *[style*="float: right"],
+.blog-post-content *[style*="float:right"] {
   float: right !important;
   margin-left: 1em !important;
   margin-bottom: 0.5em !important;

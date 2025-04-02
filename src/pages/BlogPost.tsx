@@ -14,6 +14,7 @@ const BlogPost = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const contentRef = useRef<HTMLDivElement>(null);
+  const processingRef = useRef(false);
   
   const post = slug ? getPostBySlug(slug) : undefined;
   const relatedPosts = getRecentPosts(3).filter(p => p.id !== post?.id);
@@ -36,139 +37,170 @@ const BlogPost = () => {
   }, [isLoading, post, navigate]);
   
   const processImages = () => {
-    if (!contentRef.current) return;
+    if (!contentRef.current || processingRef.current) return;
     
-    const content = contentRef.current;
-    console.log("Processing images for alignment and text flow");
+    // Set processing flag to prevent multiple simultaneous executions
+    processingRef.current = true;
     
-    // Function to determine alignment class based on style or class
-    const getAlignmentClass = (element: Element): string | null => {
-      const style = element.getAttribute('style') || '';
+    try {
+      const content = contentRef.current;
+      console.log("Processing images for alignment and text flow");
       
-      if (style.includes('float: left') || style.includes('float:left')) {
-        return 'align-left';
-      } else if (style.includes('float: right') || style.includes('float:right')) {
-        return 'align-right';
-      } else if (style.includes('margin: auto') || style.includes('margin:auto')) {
-        return 'align-center';
-      }
+      // Process all images and their containers
+      const images = content.querySelectorAll('img');
+      const containers = content.querySelectorAll('figure, .se-component, .se-image-container');
       
-      // Check for pre-existing alignment classes
-      if (element.classList.contains('left-float') || element.classList.contains('se-component-left-float')) {
-        return 'align-left';
-      } else if (element.classList.contains('right-float') || element.classList.contains('se-component-right-float')) {
-        return 'align-right';
-      } else if (element.classList.contains('center-align') || element.classList.contains('se-component-center')) {
-        return 'align-center';
-      }
-      
-      return null;
-    };
-
-    // Find and process all image containers
-    const containers = content.querySelectorAll('figure, .se-component, .se-image-container, div[class*="se-"]');
-    containers.forEach((container) => {
-      // Skip processing if this container is inside another container we've already processed
-      const parentContainer = container.closest('figure, .se-component, .se-image-container');
-      if (parentContainer && parentContainer !== container) {
-        return;
-      }
-      
-      const img = container.querySelector('img');
-      if (!img) return;
-      
-      // Determine alignment from container
-      const alignClass = getAlignmentClass(container);
-      
-      if (alignClass) {
-        // Remove old alignment classes
-        container.classList.remove('left-float', 'right-float', 'center-align', 'align-left', 'align-right', 'align-center');
-        img.classList.remove('left-float', 'right-float', 'center-align', 'align-left', 'align-right', 'align-center');
+      // Process containers with images first
+      containers.forEach(container => {
+        const img = container.querySelector('img');
+        if (!img) return;
         
-        // Add new alignment class
-        container.classList.add(alignClass);
-        img.classList.add(alignClass);
+        // Skip nested containers to avoid double processing
+        const parentContainer = container.closest('figure, .se-component, .se-image-container');
+        if (parentContainer && parentContainer !== container) return;
         
-        // Enforce float with inline styles as well for maximum compatibility
-        if (alignClass === 'align-left') {
-          (container as HTMLElement).style.cssText += '; float: left !important; margin-right: 1em !important; max-width: 50% !important;';
-          (img as HTMLElement).style.cssText += '; float: left !important;';
-          console.log('Applied left alignment to container and image');
-        } else if (alignClass === 'align-right') {
-          (container as HTMLElement).style.cssText += '; float: right !important; margin-left: 1em !important; max-width: 50% !important;';
-          (img as HTMLElement).style.cssText += '; float: right !important;';
-          console.log('Applied right alignment to container and image');
-        } else if (alignClass === 'align-center') {
-          (container as HTMLElement).style.cssText += '; float: none !important; margin-left: auto !important; margin-right: auto !important;';
-          (img as HTMLElement).style.cssText += '; float: none !important; margin-left: auto !important; margin-right: auto !important;';
-          console.log('Applied center alignment to container and image');
+        // Determine alignment based on classes and style
+        let alignment = 'none';
+        const containerElement = container as HTMLElement;
+        const imgElement = img as HTMLElement;
+        const containerStyle = window.getComputedStyle(containerElement);
+        
+        // Check classes
+        if (container.classList.contains('left-float') || 
+            container.classList.contains('se-component-left-float') ||
+            container.classList.contains('align-left')) {
+          alignment = 'left';
+        } else if (container.classList.contains('right-float') || 
+                  container.classList.contains('se-component-right-float') ||
+                  container.classList.contains('align-right')) {
+          alignment = 'right';
+        } else if (container.classList.contains('center-align') || 
+                  container.classList.contains('se-component-center') ||
+                  container.classList.contains('align-center')) {
+          alignment = 'center';
         }
-      }
-    });
-    
-    // Process direct images (not in containers)
-    const images = content.querySelectorAll('img');
-    images.forEach((img) => {
-      // Skip if this image is inside a container we already processed
-      const parentContainer = img.closest('figure, .se-component, .se-image-container');
-      if (parentContainer) {
-        return;
-      }
-      
-      const alignClass = getAlignmentClass(img);
-      
-      if (alignClass) {
-        // Remove old alignment classes
-        img.classList.remove('left-float', 'right-float', 'center-align', 'align-left', 'align-right', 'align-center');
         
-        // Add new alignment class
-        img.classList.add(alignClass);
-        
-        // Enforce float with inline styles
-        if (alignClass === 'align-left') {
-          (img as HTMLElement).style.cssText += '; float: left !important; margin-right: 1em !important; max-width: 50% !important;';
-          console.log('Applied left alignment to direct image');
-        } else if (alignClass === 'align-right') {
-          (img as HTMLElement).style.cssText += '; float: right !important; margin-left: 1em !important; max-width: 50% !important;';
-          console.log('Applied right alignment to direct image');
-        } else if (alignClass === 'align-center') {
-          (img as HTMLElement).style.cssText += '; float: none !important; display: block !important; margin-left: auto !important; margin-right: auto !important;';
-          console.log('Applied center alignment to direct image');
+        // Check inline styles if no class-based alignment was found
+        if (alignment === 'none') {
+          const floatStyle = containerStyle.getPropertyValue('float') || 
+                            containerElement.style.float || 
+                            '';
+          
+          if (floatStyle.includes('left')) {
+            alignment = 'left';
+          } else if (floatStyle.includes('right')) {
+            alignment = 'right';
+          } else if (containerStyle.getPropertyValue('margin').includes('auto') || 
+                    containerElement.style.margin?.includes('auto')) {
+            alignment = 'center';
+          }
         }
+        
+        // Apply appropriate classes based on alignment
+        container.classList.remove('align-left', 'align-right', 'align-center');
+        img.classList.remove('align-left', 'align-right', 'align-center');
+        
+        if (alignment === 'left') {
+          container.classList.add('align-left');
+          img.classList.add('align-left');
+        } else if (alignment === 'right') {
+          container.classList.add('align-right');
+          img.classList.add('align-right');
+        } else if (alignment === 'center') {
+          container.classList.add('align-center');
+          img.classList.add('align-center');
+        }
+      });
+      
+      // Process standalone images (not in containers)
+      images.forEach(img => {
+        // Skip images that are in containers we already processed
+        const parentContainer = img.closest('figure, .se-component, .se-image-container');
+        if (parentContainer) return;
+        
+        // Determine alignment based on classes and style
+        let alignment = 'none';
+        const imgElement = img as HTMLElement;
+        const imgStyle = window.getComputedStyle(imgElement);
+        
+        // Check classes
+        if (img.classList.contains('left-float') || 
+            img.classList.contains('align-left')) {
+          alignment = 'left';
+        } else if (img.classList.contains('right-float') || 
+                  img.classList.contains('align-right')) {
+          alignment = 'right';
+        } else if (img.classList.contains('center-align') || 
+                  img.classList.contains('align-center')) {
+          alignment = 'center';
+        }
+        
+        // Check inline styles if no class-based alignment was found
+        if (alignment === 'none') {
+          const floatStyle = imgStyle.getPropertyValue('float') || 
+                            imgElement.style.float || 
+                            '';
+          
+          if (floatStyle.includes('left')) {
+            alignment = 'left';
+          } else if (floatStyle.includes('right')) {
+            alignment = 'right';
+          } else if (imgStyle.getPropertyValue('margin').includes('auto') || 
+                    imgElement.style.margin?.includes('auto')) {
+            alignment = 'center';
+          }
+        }
+        
+        // Apply appropriate classes based on alignment
+        img.classList.remove('align-left', 'align-right', 'align-center');
+        
+        if (alignment === 'left') {
+          img.classList.add('align-left');
+        } else if (alignment === 'right') {
+          img.classList.add('align-right');
+        } else if (alignment === 'center') {
+          img.classList.add('align-center');
+        }
+      });
+      
+      // Ensure there's a clearfix at the end
+      let clearfix = content.querySelector('.image-clearfix');
+      if (!clearfix) {
+        clearfix = document.createElement('div');
+        clearfix.className = 'image-clearfix';
+        clearfix.style.clear = 'both';
+        content.appendChild(clearfix);
       }
-    });
-
-    // Insert a special clearfix element after the content to ensure proper layout
-    const existingClearfix = content.querySelector('.image-clearfix');
-    if (!existingClearfix) {
-      const clearfix = document.createElement('div');
-      clearfix.className = 'image-clearfix';
-      clearfix.style.clear = 'both';
-      content.appendChild(clearfix);
+      
+      console.log("Image processing complete");
+    } catch (error) {
+      console.error("Error processing images:", error);
+    } finally {
+      // Reset processing flag
+      processingRef.current = false;
     }
-
-    // Trigger reflow
-    const oldHeight = content.style.minHeight;
-    content.style.minHeight = '0';
-    setTimeout(() => { content.style.minHeight = oldHeight; }, 0);
   };
   
   useEffect(() => {
     if (!isLoading && post && contentRef.current) {
-      // Multiple processing passes to catch any rendering issues
-      const processingTimes = [0, 100, 300, 800, 1500, 3000];
+      // Process once content is loaded
+      let initialProcessTimeout = setTimeout(() => {
+        processImages();
+      }, 100);
       
-      const timers = processingTimes.map(time => 
-        setTimeout(() => {
-          console.log(`Processing images at ${time}ms`);
-          processImages();
-        }, time)
+      // Also process after a delay to catch late-loading images
+      let processingTimeouts = [500, 1000, 2000].map(delay => 
+        setTimeout(processImages, delay)
       );
       
-      // Create MutationObserver to watch for changes to the DOM
-      const observer = new MutationObserver((mutations) => {
-        console.log("DOM mutation detected, reprocessing images");
-        processImages();
+      // Create MutationObserver with debounced processing
+      let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+      const observer = new MutationObserver(() => {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          console.log("DOM mutation detected, reprocessing images");
+          processImages();
+        }, 200);
       });
       
       observer.observe(contentRef.current, { 
@@ -178,18 +210,20 @@ const BlogPost = () => {
         attributeFilter: ['style', 'class']
       });
       
-      // Ensure the content is visible and laid out properly
-      if (contentRef.current) {
-        contentRef.current.style.visibility = 'visible';
-        contentRef.current.style.display = 'block';
-      }
+      // Handle window resize with debounce
+      let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+      const handleResize = () => {
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(processImages, 200);
+      };
       
-      // Add window resize handler to ensure layout recalculation
-      const handleResize = () => processImages();
       window.addEventListener('resize', handleResize);
       
       return () => {
-        timers.forEach(clearTimeout);
+        if (initialProcessTimeout) clearTimeout(initialProcessTimeout);
+        processingTimeouts.forEach(clearTimeout);
+        if (debounceTimer) clearTimeout(debounceTimer);
+        if (resizeTimer) clearTimeout(resizeTimer);
         observer.disconnect();
         window.removeEventListener('resize', handleResize);
       };
